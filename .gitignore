@@ -1,3 +1,6 @@
 data/
 wd.py
 __pycache__
+US_Office_data/
+UK_Office_data/
+get_data_from_fandom.py
