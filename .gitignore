@@ -3,4 +3,5 @@ wd.py
 __pycache__
 US_Office_data/
 UK_Office_data/
+Spacey_tokenized_data/
 get_data_from_fandom.py
