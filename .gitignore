@@ -4,4 +4,6 @@ __pycache__
 US_Office_data/
 UK_Office_data/
 Spacey_tokenized_data/
+data_viz/
 get_data_from_fandom.py
+nlp_pipeline.py
