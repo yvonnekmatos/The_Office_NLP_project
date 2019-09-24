@@ -1,6 +1,4 @@
 from pymongo import MongoClient
-from pprint import pprint
-from os import listdir
 from wd import *
 import requests
 from bs4 import BeautifulSoup
@@ -58,7 +56,7 @@ client.list_database_names()
 office_db = client['office']
 
 office_db.create_collection('all_episodes')
-# office_db.drop_collection('all_episodes')
+
 all_episodes = office_db.get_collection('all_episodes')
 
 all_episodes.insert(office_list)
@@ -72,5 +70,4 @@ all_episodes.find({'episode': 'e01'}).count()
 cursor = all_episodes.find({}, {'_id': 0, 'country': 0, 'season': 0, 'episode': 0}).limit(7)
 
 for elem in cursor:
-    # print(type(elem))
     print(elem)

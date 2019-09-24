@@ -1,27 +1,14 @@
 from pymongo import MongoClient
-from pprint import pprint
-from os import listdir
 from wd import *
-import requests
-from copy import deepcopy
 import pandas as pd
 import numpy as np
 import re
 import string
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.feature_extraction import text
-from nltk.tokenize import word_tokenize
-from nltk.util import ngrams
-from sklearn.decomposition import TruncatedSVD
-from sklearn.decomposition import NMF
-from sklearn.metrics.pairwise import cosine_similarity
-from nlp_pipeline import *
 import spacy
 
 import warnings
 warnings.simplefilter(action='ignore', category=Warning)
 
-# notes: do topic modeling first, then add in ngrams into the CountVectorizer if the simple topic modeling isnt working
 
 client = MongoClient()
 client.list_database_names()
@@ -40,18 +27,19 @@ episode_df
 
 
 remove_line_breaks = lambda x: re.sub('\r', '', x)
-punc_lower = lambda x: re.sub('[%s]' % re.escape(string.punctuation), '', x) #, x.lower()
+punc_lower = lambda x: re.sub('[%s]' % re.escape(string.punctuation), '', x)
 remove_nums = lambda x: re.sub('\w*\d\w*', '', x)
 
 episode_df['transcript_clean'] = episode_df.transcript.map(remove_line_breaks).map(punc_lower).map(remove_nums)
 
 #========================================================================================
-# TRY SPACY
+# GET LEAMMATIZED WORDS AND PARTS OF SPEECH WITH SPACY
+
 episode_df.tail()
 episode_df.transcript_clean.values[:4]
 
 nlp = spacy.load('en_core_web_sm')
-# doc = nlp(u'Apple is looking at buying U.K. startup for $1 billion')
+
 episode_df.iloc[28:,:]
 
 
@@ -75,5 +63,5 @@ for idx,row in episode_df.iloc[28:,:].iterrows():
 master_df.columns = ['country', 'season', 'episode', 'text', 'lemma', 'pos', 'tag', 'dep',
                'shape', 'is_apha', 'is_stop']
 master_df = master_df.reset_index(drop=True)
-# master_df
+
 master_df.to_csv('us_s02_e09_onwards_master_spacy_tokenized.csv', index=False)
